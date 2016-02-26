@@ -125,7 +125,6 @@ class CeilingFan
   end
 end
 
-
 class LightOnCommand
   def initialize(light)
     @light = light
@@ -149,44 +148,46 @@ class LightOffCommand
     @light.on
   end
 end
-class CeilingFanHighCommand
+class CeilingFanCommand
   def initialize(fan)
     @fan = fan
+    @last_speed = @fan.speed
   end
   def execute
+  end
+  def undo
+    case @last_speed
+    when CeilingFan::HIGH then @fan.high
+    when CeilingFan::MEDIUM then @fan.medium
+    when CeilingFan::LOW then @fan.low
+    when CeilingFan::OFF then @fan.off
+    end
+  end
+end
+class CeilingFanHighCommand < CeilingFanCommand
+  def initialize(fan)
+    super(fan)
+  end
+  def execute
+    @last_speed = @fan.speed
     @fan.high
   end
-  def undo
-    @fan.medium
-  end
 end
-class CeilingFanMediumCommand
+class CeilingFanMediumCommand < CeilingFanCommand
   def initialize(fan)
-    @fan = fan
+    super(fan)
   end
   def execute
+    @last_speed = @fan.speed
     @fan.medium
   end
-  def undo
-    @fan.off
-  end
 end
-class CeilingFanOffCommand
+class CeilingFanOffCommand < CeilingFanCommand
   def initialize(fan)
-    @fan = fan
+    super(fan)
   end
   def execute
     @last_speed = @fan.speed
     @fan.off
-  end
-  def undo
-    case @last_speed
-    when CeilingFan::LOW
-      @fan.low
-    when CeilingFan::MEDIUM
-      @fan.medium
-    when CeilingFan::HIGH
-      @fan.high
-    end
   end
 end
