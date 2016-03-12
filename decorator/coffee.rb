@@ -6,59 +6,51 @@
 class Beverage
   attr_reader :beverage
   def description
-    @beverage ?  "#{@beverage.description}, #{self.class.name}" : self.class.name
+    name = self.class.name
+    @beverage ?  "#{@beverage.description}, #{name}" : name
   end
   def cost
-    0.0
+    self.class.const_get :COST
   end
 end
 
 class DarkRoast < Beverage
-  def cost
-    0.99
-  end
+  COST = 0.99
   def description
     "Dark Roast Coffee"
   end
 end
 class Espresso < Beverage
+  COST = 1.99
   def description
     "Espresso"
   end
-  def cost
-    1.99
-  end
 end
 class HouseBlend < Beverage
+  COST = 0.89
   def description
     "House Blend Coffee"
   end
-  def cost
-    0.89
-  end
 end
+
+# DECORATORS
 class CondimentDecorator < Beverage
   def initialize(beverage)
     @beverage = beverage
   end
+  def cost
+    (self.class.const_get :COST) + @beverage.cost
+  end
 end
 class Mocha < CondimentDecorator
-  def cost
-    0.20 + @beverage.cost
-  end
+  COST = 0.20
 end
 class Whip < CondimentDecorator
-  def cost
-    0.10 + @beverage.cost
-  end
+  COST = 0.10
 end
 class Soy < CondimentDecorator
-  def cost
-    0.15 + @beverage.cost
-  end
+  COST = 0.15
 end
 class Milk < CondimentDecorator
-  def cost
-    0.10 + @beverage.cost
-  end
+  COST = 0.10
 end
