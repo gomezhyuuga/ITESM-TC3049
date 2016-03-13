@@ -6,8 +6,7 @@
 class Beverage
   attr_reader :beverage
   def description
-    name = self.class.name
-    @beverage ?  "#{@beverage.description}, #{name}" : name
+    self.class.name
   end
   def cost
     self.class.const_get :COST
@@ -37,6 +36,10 @@ end
 class CondimentDecorator < Beverage
   def initialize(beverage)
     @beverage = beverage
+  end
+  def description
+    name = self.class.name
+    "#{@beverage.description}, #{name}"
   end
   def cost
     (self.class.const_get :COST) + @beverage.cost
