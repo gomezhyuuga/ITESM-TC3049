@@ -2,7 +2,6 @@
 # Date: 30-Mar-2016
 # Authors:
 #          A01020319 Fernando Gómez Herrera
-require 'byebug'
 require 'singleton'
 require 'set'
 
@@ -71,10 +70,5 @@ $rules = {
 
 
 def show(expr)
-  #Move.show
   puts "Result = #{expr}"
 end
-
-
-show(Paper + Paper)
-puts "Finish loading classes..."
