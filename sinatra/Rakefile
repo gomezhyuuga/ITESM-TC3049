@@ -1,0 +1,3 @@
+task :seed do
+  ruby "db/seed.rb"
+end
